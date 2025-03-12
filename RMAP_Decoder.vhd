@@ -32,7 +32,7 @@ begin
             case state is
                 when IDLE =>
                     buffer_wr_en <='0';
-                    if Rx_Empty_n = '1' then
+                    if Rx_Empty_n = '1' and buffer_full ='0' then
                         Rx_Rd_n <= '0';
                         state   <= DATA;
                     end if;
@@ -42,7 +42,7 @@ begin
                         buffer_data <= Rx_Dout(7 downto 0);
                         Rx_Rd_n <= '1';
                         byte_count <= byte_count+1;
-                        if byte_count >510 then
+                        if byte_count >= 531 then
                             byte_count <= 0;
                         elsif byte_count >= 15 then
                             if buffer_full = '0' then

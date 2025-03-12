@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity FIFO_buffer is
     Generic (
         DATA_WIDTH : integer := 8;  -- Bit-width of each FIFO entry
-        FIFO_DEPTH : integer := 16  -- Number of entries in the FIFO
+        FIFO_DEPTH : integer := 520  -- Number of entries in the FIFO
     );
     Port (
         clk      : in  std_logic;                      -- Clock signal
@@ -38,45 +38,45 @@ begin
     begin
         if reset_n = '0' then
             -- Reset the FIFO
-            fifo_reg   <= (others => (others => '0'));  -- Clear FIFO memory
-            write_ptr  <= 0;                            -- Reset write pointer
-            read_ptr   <= 0;                            -- Reset read pointer
-            count      <= 0;                            -- Reset element count
-            full_sig   <= '0';                          -- Clear full flag
-            empty_sig  <= '1';                          -- Set empty flag
+            fifo_reg   <= (others => (others => '0'));  
+            write_ptr  <= 0;                            
+            read_ptr   <= 0;                            
+            count      <= 0;                            
+            full_sig   <= '0';                          
+            empty_sig  <= '1';                          
         elsif rising_edge(clk) then
             -- Write operation
             if write_en = '1' and full_sig = '0' then
-                fifo_reg(write_ptr) <= data_in;         -- Write data to FIFO
+                fifo_reg(write_ptr) <= data_in;         
                 if write_ptr = FIFO_DEPTH-1 then
-                    write_ptr <= 0;                     -- Wrap around write pointer
+                    write_ptr <= 0;                     
                 else
-                    write_ptr <= write_ptr + 1;         -- Increment write pointer
+                    write_ptr <= write_ptr + 1;         
                 end if;
-                count <= count + 1;                     -- Increment element count
+                count <= count + 1;                     
             end if;
 
             -- Read operation
             if read_en = '1' and empty_sig = '0' then
                 data_out <= fifo_reg(read_ptr);          -- Read data from FIFO
                 if read_ptr = FIFO_DEPTH-1 then
-                    read_ptr <= 0;                      -- Wrap around read pointer
+                    read_ptr <= 0;                      
                 else
-                    read_ptr <= read_ptr + 1;           -- Increment read pointer
+                    read_ptr <= read_ptr + 1;           
                 end if;
-                count <= count - 1;                     -- Decrement element count
+                count <= count - 1;                     
             end if;
 
             -- Update full and empty flags
             if count = FIFO_DEPTH then
-                full_sig  <= '1';                       -- Set full flag
-                empty_sig <= '0';                       -- Clear empty flag
+                full_sig  <= '1';                       
+                empty_sig <= '0';                       
             elsif count = 0 then
-                full_sig  <= '0';                       -- Clear full flag
-                empty_sig <= '1';                       -- Set empty flag
+                full_sig  <= '0';                       
+                empty_sig <= '1';                       
             else
-                full_sig  <= '0';                       -- Clear full flag
-                empty_sig <= '0';                       -- Clear empty flag
+                full_sig  <= '0';                       
+                empty_sig <= '0';                       
             end if;
         end if;
     end process;

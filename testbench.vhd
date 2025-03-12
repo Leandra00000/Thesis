@@ -2882,7 +2882,7 @@ RMAP_Decoder_inst : entity work.RMAP_Decoder
 FIFO_buffer_inst : entity work.FIFO_buffer
         generic map (
             DATA_WIDTH => 8,  
-            FIFO_DEPTH => 16  
+            FIFO_DEPTH => 520  
         )
         port map (
             clk      => clk,
