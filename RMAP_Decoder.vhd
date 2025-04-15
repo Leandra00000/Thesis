@@ -44,7 +44,7 @@ begin
                         byte_count <= byte_count+1;
                         if byte_count >= 531 then
                             byte_count <= 0;
-                        elsif byte_count >= 15 then
+                        elsif byte_count >= 17 then
                             if buffer_full = '0' then
                                 buffer_wr_en <='1';
                             else

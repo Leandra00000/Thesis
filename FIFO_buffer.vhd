@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity FIFO_buffer is
     Generic (
         DATA_WIDTH : integer := 8;  -- Bit-width of each FIFO entry
-        FIFO_DEPTH : integer := 520  -- Number of entries in the FIFO
+        FIFO_DEPTH : integer := 517  -- Number of entries in the FIFO
     );
     Port (
         clk      : in  std_logic;                      -- Clock signal
@@ -22,7 +22,7 @@ end FIFO_buffer;
 
 architecture Behavioral of FIFO_buffer is
     type fifo_memory is array (0 to FIFO_DEPTH-1) of std_logic_vector(DATA_WIDTH-1 downto 0);  -- FIFO memory
-    signal fifo_reg : fifo_memory := (others => (others => '0'));  -- FIFO storage
+    signal fifo_reg : fifo_memory; --:= (others => (others => '0'));  -- FIFO storage
     signal write_ptr : integer range 0 to FIFO_DEPTH-1 := 0;  -- Write pointer
     signal read_ptr  : integer range 0 to FIFO_DEPTH-1 := 0;  -- Read pointer
     signal count     : integer range 0 to FIFO_DEPTH := 0;    -- Number of elements in FIFO
